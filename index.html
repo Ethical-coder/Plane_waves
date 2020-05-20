@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" language="javascript">
+			
+			function checking(){
+
+				var theta_i = document.getElementById("theta_i");
+				theta_i=parseFloat(theta_i.value);
+				var magnitude = document.getElementById("magnitude");
+				magnitude=parseFloat(magnitude.value);
+				var mu1 = document.getElementById("mu1");
+				mu1=parseFloat(mu1.value);
+				var epsilon1 = document.getElementById("epsilon1");
+				epsilon1=parseFloat(epsilon1.value);
+				var sigma1 = document.getElementById("sigma1");
+				sigma1=parseFloat(sigma1.value);
+
+				var mu2 = document.getElementById("mu2");
+				mu2=parseFloat(mu2.value);
+
+
+				var epsilon2 = document.getElementById("epsilon2");
+				epsilon2=parseFloat(epsilon2.value);
+
+				var sigma2 = document.getElementById("sigma2");
+				sigma2=parseFloat(sigma2.value);
+
+				var omega = document.getElementById("omega");
+				omega=parseFloat(omega.value);
+
+				var polarization = document.getElementById("polarization");
+				polarization=polarization.value;
+				var label=document.getElementById("label");
+				
+
+				//Calculations
+				var imp1=Math.sqrt(mu1/epsilon1)*120.0*(22.0/7.0);
+				var imp2=Math.sqrt(mu2/epsilon2)*120.0*(22.0/7.0);
+
+				var theta_t=Math.sqrt((mu1*epsilon1)/(mu2*epsilon2))*Math.sin(theta_i*22/(180*7));
+					
+				if(theta_t>=1)
+					theta_t=90;
+				else
+					theta_t=Math.asin(theta_t)*180*7/22;
+
+				var ans="<br><h2 style='color:red;'>Results of Stimulation</h2>";
+				if("parallel".localeCompare(polarization)==0){
+
+					var ref_coef=(imp1*Math.cos(theta_i*22/(180*7))-imp2*Math.cos(theta_t*22/(180*7)))/(imp1*Math.cos(theta_i*22/(180*7))+imp2*Math.cos(theta_t*22/(180*7)));
+					var trans_coef=(2*imp2*Math.cos(theta_i*22/(180*7)))/(imp2*Math.cos(theta_t*22/(180*7))+imp1*Math.cos(theta_i*22/(180*7)));
+
+					ans+="Angle of reflection = "+theta_i+"<br>Angle of transmittance = "+theta_t;
+
+					ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+
+					ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+				
+					var pcr=omega*Math.sqrt(mu1*epsilon1)/300000000.0;
+    	 			var pct=omega*Math.sqrt(mu2*epsilon2)/300000000.0; 
+
+    	 			ans+="<br>Phase constant of reflected field is"+ pcr +"<br>Phase constant of transmitted field is "+pct;
+
+				}
+
+
+
+
+			else if("perpendicular".localeCompare(polarization)==0){
+					
+        
+        			var ref_coef=(imp2*Math.cos(theta_i*22/(180.0*7))-imp1*Math.cos(theta_t*22/(180.0*7)))/(imp2*Math.cos(theta_i*22/(180.0*7))+imp1*Math.cos(theta_t*22/180.0*7));
+
+        			var trans_coef=(2*imp2*Math.cos(theta_i*22/(180.0*7)))/(imp2*Math.cos(theta_i*22/(180.0*7))+imp1*Math.cos(theta_t*22/(180.0*7)));
+
+					ans+="Angle of reflection = "+theta_i+"<br>Angle of transmittance = "+theta_t;
+
+					ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+
+					ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+				
+					var pcr=omega*Math.sqrt(mu1*epsilon1)/300000000.0;
+    	 			var pct=omega*Math.sqrt(mu2*epsilon2)/300000000.0; 
+
+    	 			ans+="<br>Phase constant of reflected field is"+ pcr +"<br>Phase constant of transmitted field is "+pct;
+				}
+				
+
+
+			else{
+					ans+="<h4 style='color:red;'>Entered string was not in correct format<h4>";
+				}
+
+
+
+
+			label.innerHTML=(ans);
+				
+
+
+			}
+		</script>
+
+	</head>
+
+	<body>
+		<center><h1>Uniform Plane Wave Stimulations</h1></center>
+		<h2>Enter the value of incident angle (Enter the value in degrees)</h2><input type="text" id="theta_i" name="theta_i">
+		<h2>Enter the magnitude of Electric field</h2><input type="text" id="magnitude" name="m">
+		
+		<h2>Enter the values of first medium:</h2>
+		<center>
+			<h4>Permeability of first medium</h4>	<input type="text" id="mu1" name="a"><br><br>
+			<h4>Permitivity of first medium</h4>	<input type="text" id="epsilon1" name="z"><br><br>
+			<h4>conductivity of first medium</h4>	<input type="text" id="sigma1" name="r"><br><br>
+		</center>
+
+		<h2>Enter the values of second medium:</h2>
+		<center>
+			<h4>Permeability of second medium</h4>	<input type="text" id="mu2" name="t"><br><br>
+			<h4>Permitivity of second medium</h4>	<input type="text" id="epsilon2" name="l"><br><br>
+			<h4>conductivity of second medium</h4>	<input type="text" id="sigma2" name="k"><br><br>
+		</center>
+
+		<h2>Enter the value of angular velocity of wave</h2>	<input type="text" id="omega" name="n"><br><br>
+
+		<h2>Polarization of Wave </h2><h4>For parallel polarization type parallel and for perpendicular polarization type perpendicular </h4><h4>Enter all values in lower case alphabets(all letters small)</h4>	<input type="text" id="polarization" name="fname"><br><br>
+
+		<center>
+		<button type="button" onclick="checking()">Calculate</button>
+		</center>
+		<br>
+		<label id='label'></label>
+	</body>
+
+
+
+</html>
