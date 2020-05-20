@@ -29,7 +29,7 @@
 				var omega = document.getElementById("omega");
 				omega=parseFloat(omega.value);
 
-				var polarization = document.getElementById("polarization");
+				var polarization = document.getElementById("dropdown");
 				polarization=polarization.value;
 				var label=document.getElementById("label");
 				
@@ -125,10 +125,15 @@
 
 		<h2>Enter the value of angular velocity of wave</h2>	<input type="text" id="omega" name="n"><br><br>
 
-		<h2>Polarization of Wave </h2><h4>For parallel polarization type parallel and for perpendicular polarization type perpendicular </h4><h4>Enter all values in lower case alphabets(all letters small)</h4>	<input type="text" id="polarization" name="fname"><br><br>
+		<h2>Polarization of Wave </h2><h4>For parallel polarization type parallel and for perpendicular polarization type perpendicular </h4><h4>Enter all values in lower case alphabets(all letters small)</h4>	<br>
 
 		<center>
-		<button type="button" onclick="checking()">Calculate</button>
+		<SELECT id="dropdown" name="states">
+			<option value=''></option>
+			<option value='perpendicular'>Perpendicular</option>
+			<option value='parallel'>Parallel</option></SELECT>
+			<button type="button" onclick="checking()">Calculate</button>
+
 		</center>
 		<br>
 		<label id='label'></label>
