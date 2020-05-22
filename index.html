@@ -35,28 +35,39 @@
 				
 
 				//Calculations
-				var imp1=Math.sqrt(mu1/epsilon1)*120.0*(22.0/7.0);
-				var imp2=Math.sqrt(mu2/epsilon2)*120.0*(22.0/7.0);
+				var imp1=Math.sqrt(mu1/epsilon1)*180.0*(22.0/7.0);
+				var imp2=Math.sqrt(mu2/epsilon2)*180.0*(22.0/7.0);
 
 				var theta_t=Math.sqrt((mu1*epsilon1)/(mu2*epsilon2))*Math.sin(theta_i*22/(180*7));
 					
 				if(theta_t>=1)
 					theta_t=90;
 				else
-					theta_t=Math.asin(theta_t)*180*7/22;
+					theta_t=Math.asin(theta_t)*180*7.0/22.0;
 
 				var ans="<br><h2 style='color:red;'>Results of Stimulation</h2>";
 				if("parallel".localeCompare(polarization)==0){
 
-					var ref_coef=(imp1*Math.cos(theta_i*22/(180*7))-imp2*Math.cos(theta_t*22/(180*7)))/(imp1*Math.cos(theta_i*22/(180*7))+imp2*Math.cos(theta_t*22/(180*7)));
-					var trans_coef=(2*imp2*Math.cos(theta_i*22/(180*7)))/(imp2*Math.cos(theta_t*22/(180*7))+imp1*Math.cos(theta_i*22/(180*7)));
+					var ref_coef=(imp1*Math.cos(theta_i*22.0/(180.0*7.0))-imp2*Math.cos(theta_t*22.0/(180.0*7.0)))/(imp1*Math.cos(theta_i*22.0/(180.0*7.0))+imp2*Math.cos(theta_t*22.0/(180.0*7.0)));
+					var trans_coef=(2*imp2*Math.cos(theta_i*22.0/(180.0*7.0)))/(imp2*Math.cos(theta_t*22.0/(180.0*7.0))+imp1*Math.cos(theta_i*22.0/(180.0*7.0)));
 
 					ans+="Angle of reflection = "+theta_i+"<br>Angle of transmittance = "+theta_t;
 
-					ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+					var theta_b=Math.atan(Math.sqrt(( epsilon2*( (mu1*epsilon2)-(mu2*epsilon1)) )/ (epsilon1* ((mu2*epsilon2)-(mu1*epsilon1) )) ))*180.0*7.0/22.0;
+					if(theta_i!=theta_b){
+						ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
 
-					ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
-				
+						ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+					}
+
+					else{
+						ans+="<br>Magnitude of reflected electric field is = 0<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+
+						ans+="<br>Magnitude of reflected magnetic field is = 0<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+					
+
+					}
+
 					var pcr=omega*Math.sqrt(mu1*epsilon1)/300000000.0;
     	 			var pct=omega*Math.sqrt(mu2*epsilon2)/300000000.0; 
 
@@ -76,10 +87,23 @@
 
 					ans+="Angle of reflection = "+theta_i+"<br>Angle of transmittance = "+theta_t;
 
-					ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+					
+					
+					var theta_b=Math.atan(Math.sqrt(( mu2*( (mu2*epsilon1)-(mu1*epsilon2)) )/ (mu1* ((mu2*epsilon2)-(mu1*epsilon1) )) ))*180.0*7.0/22.0;
 
-					ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
-				
+					if(theta_i!=theta_b){
+						ans+="<br>Magnitude of reflected electric field is = "+ref_coef*magnitude+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+
+						ans+="<br>Magnitude of reflected magnetic field is = "+ref_coef*magnitude/imp1+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+					}
+
+					else{
+						ans+="<br>Magnitude of reflected electric field is = "+0+"<br>Magnitude of transmitted electric field is ="+trans_coef*magnitude;
+
+						ans+="<br>Magnitude of reflected magnetic field is = "+0+"<br>Magnitude of transmitted magnetic field is ="+trans_coef*magnitude/imp2;
+					
+
+					}
 					var pcr=omega*Math.sqrt(mu1*epsilon1)/300000000.0;
     	 			var pct=omega*Math.sqrt(mu2*epsilon2)/300000000.0; 
 
